@@ -46,4 +46,8 @@ int dynamicArrayGetSize(dynamicArray *pArray, int *pSize);
 /* 获取数组的容量 */
 int dynamicArrayGetCapacity(dynamicArray *pArray, int *pCapacity);
 
+/* 获取指定位置的数据元素数据 */
+int dynamicArrayGetAppointPosVal(dynamicArray *pArray, int pos, ELEMENTTYPE *pVal);
+
+
 #endif 
