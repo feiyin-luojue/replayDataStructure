@@ -12,11 +12,14 @@ typedef struct dynamicArray
 
 /* API: application program interface */
 
+/* 静态函数前置声明*/
+static int expandDynamicCapacity(dynamicArray *pArray);
+
 /* 动态数组的初始化 */
 int dynamicArrayInit(dynamicArray *pArray, int capacity);
 
 /* 动态数组插入数据(默认插到数组的末尾) */
-int dynamicArrayInsertData();
+int dynamicArrayInsertData(dynamicArray *pArray, ELEMENTTYPE val);
 
 /* 动态数组插入数据(在指定位置插入) */
 int dynamicArrayAppointPosInsertData(dynamicArray *pArray, int pos, ELEMENTTYPE val);
