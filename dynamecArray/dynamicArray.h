@@ -14,6 +14,7 @@ typedef struct dynamicArray
 
 /* 静态函数前置声明*/
 static int expandDynamicCapacity(dynamicArray *pArray);
+static int shrinkDynamicCapacity(dynamicArray *pArray);
 
 /* 动态数组的初始化 */
 int dynamicArrayInit(dynamicArray *pArray, int capacity);
