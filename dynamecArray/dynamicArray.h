@@ -1,20 +1,35 @@
 #ifndef __DYNAMICARRAY_H__
 #define __DYNAMICARRAY_H__
 
-typedef int ELEMENTTYPE;
+#if 1
+#define ELEMENTTYPE void*
+#else
+typedef void * ELEMENTTYPE;
+#endif
 
 typedef struct dynamicArray
 {
     ELEMENTTYPE *data;      /* 数组的空间 */
-    ELEMENTTYPE len;        /* 数组的大小 */
-    ELEMENTTYPE capacity;   /* 数组的容量 */
+    int len;        /* 数组的大小 */
+    int capacity;   /* 数组的容量 */
 } dynamicArray;
 
 /* API: application program interface */
 
-/* 静态函数前置声明*/
-static int expandDynamicCapacity(dynamicArray *pArray);
-static int shrinkDynamicCapacity(dynamicArray *pArray);
+/* 堆空间申请成功判断 */
+int DetermineMallocNull(const void *pMallocAddress);
+
+/* 动态数组判空 */
+int dynamicArrayDetermineNull(const dynamicArray *pArray);
+
+/* 容量参数合法性判断 */
+int determineCapacityLegitimacy(int *capacity);
+
+/* 位置参数合法性判断 */
+int determinePosLegitimacy(const dynamicArray *pArray, const int pos);
+
+/* 释放指针空间*/
+int PutPtrToNull(void *ptr);
 
 /* 动态数组的初始化 */
 int dynamicArrayInit(dynamicArray *pArray, int capacity);
