@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "linkList.h"
 
@@ -29,6 +30,8 @@ int LinkListInit(LinkList** pList)
     }
     list->head->data = 0;
     list->head->next = NULL;
+    /* 初始化的时候，尾指针 = 头指针 */
+    list->tail = list->head;
 
     /* 链表的长度为0 */
     list->len = 0;
@@ -81,6 +84,12 @@ int LinkListAppointPosInsert(LinkList *pList,int pos, ELEMENTTYPE val)
 #else
     LinkNode * travelNode = pList->head->next;
 #endif
+    /* 这种情况下需要更改尾指针 */
+    if (pos == pList->len)
+    {
+        pList->tail = newNode;
+    }
+
     while (pos)
     {
         travelNode = travelNode->next;
@@ -99,19 +108,55 @@ int LinkListAppointPosInsert(LinkList *pList,int pos, ELEMENTTYPE val)
 /* 链表头删 */
 int LinkListHeadDel(LinkList *pList)
 {
-
+    return LinkListDelAppointPos(pList, 1);
 }
 
 /* 链表尾删 */
 int LinkListTailDel(LinkList *pList)
 {
-
+    return LinkListDelAppointPos(pList, pList->len);
 }
 
 /* 链表删除指定位置 */
 int LinkListDelAppointPos(LinkList *pList, int pos)
 {
+    if (pList == NULL)
+    {
+        return NULL_PTR;
+    }
 
+    if (pos <= 0 || pos > pList->len)
+    {
+        return INVALID_ACCESS;
+    }
+
+#if 1   
+    LinkNode * travelNode = pList->head;
+#else
+
+#endif
+    while (--pos)
+    {
+        /* 向后移动 */
+        travelNode = travelNode->next;
+       // pos--;
+    }
+    //跳出循环找到的是哪一个结点
+    LinkNode * needDelNode = travelNode->next;
+
+    travelNode->next = needDelNode->next;
+
+    /* 释放内存 */
+    if (needDelNode != NULL)
+    {
+        free(needDelNode);
+        needDelNode =NULL;
+    }
+
+    /* 链表长度减一 */
+    pList->len--;
+
+    return ON_SUCCESS;
 }
 
 /* 链表删除指定数据 */
@@ -143,7 +188,7 @@ int LinkListDestroy(LinkList *pList)
 }
 
 /* 链表遍历接口 */
-int LinkListForeach(LinkList *pList)
+int LinkListForeach(const LinkList *pList)
 {
     if (pList == NULL)
     {
@@ -159,9 +204,10 @@ int LinkListForeach(LinkList *pList)
     }
 #else
     LinkNode * travelNode = pList->head->next;
-    while (travelNode != NULL)
+    while (travelNode->next != NULL)
     {
         printf("travelNode->data:%d\n", travelNode->data);
+        travelNode = travelNode->next;
     }    
 #endif
 
