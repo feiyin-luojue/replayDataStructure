@@ -1,5 +1,6 @@
 #include "binarySearchTree.h"
 #include <stdlib.h>
+#include <string.h>
 
 /* 状态码 */
 enum STATUS_CODE
@@ -10,6 +11,9 @@ enum STATUS_CODE
     MALLOC_ERROR,
     INVALID_ACCESS,
 };
+
+static int compareFunc(ELEMENTTYPE val1, ELEMENTTYPE val2);
+static BSTreeNode *createBSTreeNewNode(ELEMENTTYPE val, BSTreeNode *parentNode);
 
 /* 二叉搜索树的初始化 */
 int binarySearchTreeInit(BinarySearchTree **pBstree)
@@ -41,7 +45,9 @@ int binarySearchTreeInit(BinarySearchTree **pBstree)
     return ret;
 }
 
-static int compareFunc(ELEMENTTYPE val1, ELEMENTTYPE val2)
+/* 静态函数前置声明 */
+static int compareFunc(ELEMENTTYPE val1, ELEMENTTYPE val2);
+#if 0
 {
     #if 0
     if (val1 < val2)
@@ -59,9 +65,32 @@ static int compareFunc(ELEMENTTYPE val1, ELEMENTTYPE val2)
     #endif
     return val1 - val2;
 }
+#endif
+
+/* 创建结点 */
+static BSTreeNode *createBSTreeNewNode(ELEMENTTYPE val, BSTreeNode *parentNode)
+{
+    /* 分配根节点 */
+    BSTreeNode * newBstNode = (BSTreeNode *)malloc(sizeof(BSTreeNode) * 1);
+    if (newBstNode == NULL)
+    {
+        return (BSTreeNode *)MALLOC_ERROR;
+    }
+    memset(newBstNode, 0, sizeof(BSTreeNode) * 1);
+
+    newBstNode->data = 0;
+    newBstNode->parent = NULL;
+    newBstNode->left = NULL;
+    newBstNode->right = NULL;
+    /* 新结点赋值 */
+    newBstNode->data = val;
+    newBstNode->parent = parentNode;
+    return newBstNode;
+}
+
 
 /* 二叉搜索树的插入 */
-int binarySearchTreeInsert(BinarySearchTree *pBstree, ELEMENTTYPE val)
+int binarySearchTreeInsert(BinarySearchTree *pBstree, ELEMENTTYPE val, int (*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2))
 {
     int ret = 0;
 
@@ -102,7 +131,7 @@ int binarySearchTreeInsert(BinarySearchTree *pBstree, ELEMENTTYPE val)
             return ret;
         }
     }
-
+    #if 0
     /* 分配根节点 */
     BSTreeNode * newBstNode = (BSTreeNode *)malloc(sizeof(BSTreeNode) * 1);
     if (newBstNode == NULL)
@@ -117,20 +146,55 @@ int binarySearchTreeInsert(BinarySearchTree *pBstree, ELEMENTTYPE val)
     newBstNode->right = NULL;
     /* 新结点赋值 */
     newBstNode->data = val;
+    #else
+    BSTreeNode * newBstNode = createBSTreeNewNode(val, parentNode);
+    #endif
 
     /* 挂在左子树 */
     if (cmp < 0)
     {
         parentNode->left = newBstNode;
     }
-    else (cmp > 0)
+    else
     {
-            /* 挂在左子树 */
+            /* 挂在右子树 */
         parentNode->right = newBstNode;
     }
 
     newBstNode->parent = parentNode;
 
     (pBstree->size)++;
+    return ret;
+}
+
+/* 二叉搜索树的前序遍历 */
+int binarySearchTreePreOrderTravel(BinarySearchTree *pBstree)
+{
+    int ret = 0;
+
+    return ret;
+}
+
+/* 二叉搜索树的中序遍历 */
+int binarySearchTreeInOrderTravel(BinarySearchTree *pBstree)
+{
+    int ret = 0;
+
+    return ret;
+}
+
+/* 二叉搜索树的后序遍历 */
+int binarySearchTreePostOrderTravel(BinarySearchTree *pBstree)
+{
+    int ret = 0;
+
+    return ret;
+}
+
+/* 二叉搜索树的层序遍历 */
+int binarySearchTreeLevelOrderTravel(BinarySearchTree *pBstree)
+{
+    int ret = 0;
+
     return ret;
 }
