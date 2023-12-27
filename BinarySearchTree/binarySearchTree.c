@@ -432,9 +432,10 @@ int binarySearchTreeDestory(BinarySearchTree *pBstree)
     {
         return NULL_PTR;
     }
-    
+
     DoubleLinkListQueue *pQueue = NULL;
-    doubleLinkListQueueInit(&pQueue);
+    doubleLinkListQueueInit(&pQueue);   
+    doubleLinkListQueuePush(pQueue, pBstree->root);
 
     BSTreeNode *travelNode = NULL;
     while (!doubleLinkListQueueIsEmpty(pQueue))
@@ -445,12 +446,12 @@ int binarySearchTreeDestory(BinarySearchTree *pBstree)
 
     if (travelNode->left)
     {
-        doubleLinkListQueuePush(travelNode->left);
+        doubleLinkListQueuePush(pQueue, travelNode->left);
     }
 
     if (travelNode->right)
     {
-        doubleLinkListQueuePush(travelNode->right);
+        doubleLinkListQueuePush(pQueue, travelNode->right);
     }
     
     /* 释放队列 */
