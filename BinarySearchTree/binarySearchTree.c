@@ -1,7 +1,7 @@
 #include "binarySearchTree.h"
 #include <stdlib.h>
 #include <string.h>
-#include "../DoubleLinkListQueue/doubleLinkListQueue.h"
+#include "DoubleLinkListQueue/doubleLinkListQueue.h"
 
 /* 状态码 */
 enum STATUS_CODE
@@ -241,6 +241,7 @@ int binarySearchTreeInsert(BinarySearchTree *pBstree, ELEMENTTYPE val)
     return ret;
 }
 
+/* 前序遍历 */
 static int preOrderTravel(BinarySearchTree *pBstree, BSTreeNode *node)
 {
     int ret = 0;
@@ -372,4 +373,54 @@ int binarySearchTreeIsContainAppointVal(BinarySearchTree *pBstree, ELEMENTTYPE v
 int binarySearchTreeDele(BinarySearchTree *pBstree)
 {
     
+}
+
+/* 二叉树的高度 */
+int binarySearchTreeGetHeight(BinarySearchTree *pBstree, int *pBstHeigh)
+{
+    DoubleLinkListQueue *pQueue = NULL;
+    doubleLinkListQueueInit(&pQueue);
+
+    /* 1.根节点入队 */
+    doubleLinkListQueuePush(pQueue, pBstree->root);
+
+    int height = 0;
+    /* 每一层的结点数 */
+    int levelSize = 1;
+
+    /* 2.判断队列是否为空 */
+    BSTreeNode *travelNode = NULL;
+    while (!doubleLinkListQueueIsEmpty(pQueue))
+    {
+        doubleLinkListQueueTop(pQueue, (void**)&travelNode);
+        doubleLinkListQueuePop(pQueue);
+        levelSize--;
+
+        /* 左子树不为空 */
+        if (travelNode->left != NULL)
+        {
+            doubleLinkListQueuePush(pQueue, travelNode->left);
+        }
+
+        /* 右子树不为空 */
+        if (travelNode->left != NULL)
+        {
+            doubleLinkListQueuePush(pQueue, travelNode->right);
+        }
+
+        /* 树的当前层节点遍历结束 */
+        if (levelSize == 0)
+        {
+            height++;
+            doubleLinkListQueueGetSize(pQueue, &levelSize);
+        }
+        *pBstHeigh = height;
+
+        doubleLinkListQueueDestroy(pQueue);
+
+
+    }
+    
+    /* 释放队列 */
+    doubleLinkListQueueDestroy(pQueue);
 }
