@@ -369,7 +369,7 @@ int binarySearchTreeIsContainAppointVal(BinarySearchTree *pBstree, ELEMENTTYPE v
     return baseAppointValGetBstreeNode(pBstree, val) == NULL ? 0 : 1;
 }
 
-/* 二叉搜索树的删除 */
+/* 二叉搜索树删除数据 */
 int binarySearchTreeDele(BinarySearchTree *pBstree)
 {
     
@@ -423,4 +423,44 @@ int binarySearchTreeGetHeight(BinarySearchTree *pBstree, int *pBstHeigh)
     
     /* 释放队列 */
     doubleLinkListQueueDestroy(pQueue);
+}
+
+/* 二叉搜索树的销毁 */
+int binarySearchTreeDestory(BinarySearchTree *pBstree)
+{
+    if (!pBstree)
+    {
+        return NULL_PTR;
+    }
+    
+    DoubleLinkListQueue *pQueue = NULL;
+    doubleLinkListQueueInit(&pQueue);
+
+    BSTreeNode *travelNode = NULL;
+    while (!doubleLinkListQueueIsEmpty(pQueue))
+    {
+        doubleLinkListQueueTop(pQueue, (void **)&travelNode);
+        doubleLinkListQueuePop(pQueue);
+    }
+
+    if (travelNode->left)
+    {
+        doubleLinkListQueuePush(travelNode->left);
+    }
+
+    if (travelNode->right)
+    {
+        doubleLinkListQueuePush(travelNode->right);
+    }
+    
+    /* 释放队列 */
+    doubleLinkListQueueDestroy(pQueue);
+    
+    if (pBstree)
+    {
+        free(pBstree);
+        pBstree = NULL;
+    }
+
+    return ON_SUCCESS;
 }

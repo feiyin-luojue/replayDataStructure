@@ -44,4 +44,16 @@ int binarySearchTreePostOrderTravel(BinarySearchTree *pBstree);
 /* 二叉搜索树的层序遍历 */
 int binarySearchTreeLevelOrderTravel(BinarySearchTree *pBstree);
 
+/* 二叉搜索树是否包含指定的元素 */
+int binarySearchTreeIsContainAppointVal(BinarySearchTree *pBstree, ELEMENTTYPE val);
+
+/* 二叉搜索树的删除 */
+int binarySearchTreeDele(BinarySearchTree *pBstree);
+
+/* 二叉树的高度 */
+int binarySearchTreeGetHeight(BinarySearchTree *pBstree, int *pBstHeigh);
+
+/* 二叉搜索树的销毁 */
+int binarySearchTreeDestory(BinarySearchTree *pBstree);
+
 #endif
