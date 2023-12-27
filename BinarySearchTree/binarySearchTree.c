@@ -18,7 +18,8 @@ static int compareFunc(ELEMENTTYPE val1, ELEMENTTYPE val2);
 static BSTreeNode *createBSTreeNewNode(ELEMENTTYPE val, BSTreeNode *parentNode);
 /* 根据指定的值获取二叉 */
 static BSTreeNode * baseAppointValGetBstreeNode(BinarySearchTree *pBstree, ELEMENTTYPE val);
-
+/* 二叉搜索树删除指定的结点 */
+static binarySearchTreeDeleNode(BinarySearchTree *pBstree, BSTreeNode *node);
 /* 判断二叉搜索树度为2 */
 static int binarySearchTreeNodeHasTwochildrens(BSTreeNode *node);
 /* 判断二叉搜索树度为1 */
@@ -385,10 +386,70 @@ int binarySearchTreeIsContainAppointVal(BinarySearchTree *pBstree, ELEMENTTYPE v
     return baseAppointValGetBstreeNode(pBstree, val) == NULL ? 0 : 1;
 }
 
-/* 二叉搜索树删除数据 */
-int binarySearchTreeDele(BinarySearchTree *pBstree)
+static binarySearchTreeDeleNode(BinarySearchTree *pBstree, BSTreeNode *node)
 {
-    
+    if (node)
+    {
+        return NULL_PTR;
+    }
+    /* 删除度为2的结点：找到前驱（后继）结点，复制该前驱（后继）结点的值给要删除的结点，再删除该前驱（后继） */
+    /* 找到前驱结点 */
+    BSTreeNode *preNode = bstreeNodePreDecessor(node);
+    node->data = preNode->data;
+    node = preNode;
+
+    /* 程序执行到这里，要删除的结点要么度为1 要么度为0 */
+    /* 删除度为1的结点：过继本结点的孩子结点给本结点的父结点，让孩子结点成为本结点的父结点的对应孩子 */
+    BSTreeNode *child = node->left == !NULL ? node->left : node->right;   
+    if (child)   
+    {
+        child->parent = node->parent;
+        if (!node->parent)
+        {
+            /* 度为1 且 它不是根结点 */
+            if (node = node->parent->left)
+            {
+                node->parent->left = child;
+            }
+            if (node = node->parent->right)
+            {
+                node->parent->right = child;
+            }
+        }
+        else
+        {
+            child->parent = NULL;
+            pBstree->root = child;
+        }
+    } 
+    else
+    {   /* 删除叶子结点：直接删除，并且将父节点对应的指针置空 */
+        if (node->parent)
+        {
+            /* 不是根节点 */
+            if (node = node->parent->left)
+            {
+                node->parent->left = NULL;
+            }
+            if (node = node->parent->right)
+            {
+                node->parent->right = NULL;
+            }
+        }
+    }
+    free(node);
+    node = NULL;
+    return ON_SUCCESS;
+}
+/* 二叉搜索树删除数据 */
+int binarySearchTreeDele(BinarySearchTree *pBstree, ELEMENTTYPE val)
+{
+    /* */
+
+    return binarySearchTreeDeleNode(pBstree, val);
+    /* 删除度为2的结点：找到前驱（后继）结点，复制该前驱（后继）结点的值给要删除的结点，再删除该前驱（后继） */
+    /* 删除度为1的结点：过继本结点的孩子结点给本结点的父结点，让孩子结点成为本结点的父结点的对应孩子 */
+    /* 删除度为0的结点：直接删除，并且将父节点对应的指针置空 */
 }
 
 /* 二叉树的高度 */

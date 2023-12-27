@@ -48,7 +48,7 @@ int binarySearchTreeLevelOrderTravel(BinarySearchTree *pBstree);
 int binarySearchTreeIsContainAppointVal(BinarySearchTree *pBstree, ELEMENTTYPE val);
 
 /* 二叉搜索树的删除 */
-int binarySearchTreeDele(BinarySearchTree *pBstree);
+int binarySearchTreeDele(BinarySearchTree *pBstree, ELEMENTTYPE val);
 
 /* 二叉树的高度 */
 int binarySearchTreeGetHeight(BinarySearchTree *pBstree, int *pBstHeigh);
