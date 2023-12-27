@@ -87,10 +87,9 @@ static int binarySearchTreeNodeIsLeaf(BSTreeNode *node)
 /* 获取当前节点的前驱结点 */
 static BSTreeNode * bstreeNodePreDecessor(BSTreeNode *node)
 {
-    /* 度为2 */
-    if (binarySearchTreeNodeHasTwochildrens(node))
+    if (node->left)
     {
-        /* 度为2，前驱结点是在左子树的右子树的右子树... */
+        /* 前驱结点是左子树的右子树的右子树 */
         BSTreeNode *travelNode = node->left;
         while (travelNode != NULL)
         {
@@ -99,21 +98,38 @@ static BSTreeNode * bstreeNodePreDecessor(BSTreeNode *node)
         return travelNode;
     }
 
-    /* 程序到这个地方一定是度为1 或者 度为0的 */
-    /* 度为1 */
-    if (binarySearchTreeNodeHasOnechildrens(node))
+    /* 程序到这个地方 说明一定没有左子树。那就需要向父结点找 */
+    while (node->parent && node == node->parent->left)
     {
-
+        node = node->parent;
     }
-
-    /* 度为0 */
-
+    
+    return node->parent;
 }
 
 /* 获取当前节点的后继结点 */
 static BSTreeNode * bstreeNodeSuccessor(BSTreeNode *node)
 {
+    /* 后继节点是比它大的所有孩子中最小的，
+    或者第一个比它大的parent（它的第一个右parent）*/
+    if (node->right)
+    {
+        /* 后继结点是右子树的左子树的左子树 */
+        BSTreeNode *travelNode = node->right;
+        while (travelNode != NULL)
+        {
+            travelNode = travelNode->left;
+        }
+        return travelNode;
+    }
 
+    /* 程序到这个地方 说明一定没有右子树。那就需要向父结点找 */
+    while (node->parent && node == node->parent->right)
+    {
+        node = node->parent;
+    }
+    
+    return node->parent;
 }
 
 
