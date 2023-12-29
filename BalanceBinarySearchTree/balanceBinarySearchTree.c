@@ -50,7 +50,9 @@ static int AVLTreeNodeIsBalanced(AVLTreeNode *node);
 /* 更新节点的高度 */
 static int AVLTreeNodeUpdateHeight(AVLTreeNode *node);
 /* 调整平衡 */
-static int AVLTreeNodeAdjustBalance(BalanceBinarySearchTree pBstree,AVLTreeNode node);
+static int AVLTreeNodeAdjustBalance(BalanceBinarySearchTree *pBstree,AVLTreeNode *node);
+/* 获取AVL结点较高的子结点 */
+static int AVLTreeNodeGetChildTaller(AVLTreeNode *node);
 
 
 /* 二叉搜索树的初始化 */
@@ -136,10 +138,10 @@ static int AVLTreeNodeIsBalanced(AVLTreeNode *node)
 
 static int tmpMax(int val1, int val2)
 {
-    return val1 - val2 >= 0 ? val1 : val2
+    return val1 - val2 >= 0 ? val1 : val2;
 }
 /* 更新结点的高度 */
-static int AVLTreeNodeUpdateHeight(AVLTreeNode *node)
+static int AVLTreeNodeGetUpdateHeight(AVLTreeNode *node)
 {
     /* 左子树的高度 */
     int leftHeight = node->left == NULL ? 0 : node->left->height;
@@ -263,10 +265,63 @@ static int compareFunc(ELEMENTTYPE val1, ELEMENTTYPE val2)
 }
 #endif
 
-/* 调整平衡 */
-static int AVLTreeNodeAdjustBalance(BalanceBinarySearchTree pBstree,AVLTreeNode node)
+static AVLTreeNode * AVLTreeNodeGetChildIsTaller(AVLTreeNode *node)
 {
+    /* 左子树高度 */
+    int leftHeight = node->left == NULL ? 0 : node->left->height;
+    /* 右子树高度 */
+    int rightHeight = node->right == NULL ? 0 : node->right->height;
+    if (leftHeight > rightHeight)
+    {
+        return leftHeight;
+    }
+    else if (leftHeight < rightHeight)
+    {
+        node->right;
+    }
+    else
+    {
+        if (node->parent != NULL && node == node->parent->left)
+        {
+            return node->left; 
+        }
+        else
+        {
+            return node->right; 
+        }
+    }
+}
+/* 调整平衡 */
+/* node一定是最低的不平衡结点 */
+static int AVLTreeNodeAdjustBalance(BalanceBinarySearchTree *pBstree,AVLTreeNode *node)
+{
+    AVLTreeNode *parent = AVLTreeNodeGetChildTaller(node);
+    AVLTreeNode *child = AVLTreeNodeGetChildTaller(parent);
 
+    if (parent == node->left)
+    {
+        /* L */
+        if (child == parent->left)
+        {
+            /* LL */  
+        }
+        else
+        {
+            /* LR */
+        }
+    }
+    else
+    {
+        /* R */
+        if (child == parent->left)
+        {
+            /* RL */  
+        }
+        else
+        {
+            /* RR */
+        }
+    }
 }
 
 /* 添加结点之后的操作 */
