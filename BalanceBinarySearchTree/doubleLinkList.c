@@ -317,7 +317,6 @@ int DoubleLinkListGetLength(DoubleLinkList * pList, int *pSize)
 /* 链表的销毁 */
 int DoubleLinkListDestroy(DoubleLinkList * pList)
 {
-    int ret = 0;
     /* 我们使用头删释放链表 */
     int size = 0;
     while (DoubleLinkListGetLength(pList, &size))
@@ -332,7 +331,14 @@ int DoubleLinkListDestroy(DoubleLinkList * pList)
         pList->head = NULL;
         pList->tail = NULL;
     }
-    return ret;
+
+    if (pList != NULL)
+    {
+        free(pList);
+        pList = NULL;
+    }
+
+    return ON_SUCCESS;
 }
 
 #if 1
